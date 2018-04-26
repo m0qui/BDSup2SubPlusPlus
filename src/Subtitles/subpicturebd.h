@@ -168,7 +168,7 @@ public:
         return isForced;
     }
 
-    void setForced(bool isForced)
+    void setForced(bool /*isForced*/)
     {
         for (int i = 0; i < imageObjectList.size(); ++i)
         {

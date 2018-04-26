@@ -52,7 +52,7 @@ public:
     qint64 endTime(int index);
     qint64 startTime(int index);
     qint64 startOffset(int index);
-    bool isForced(int index) { return false; }
+    bool isForced(int /*index*/) { return false; }
 
     Bitmap &bitmap() { return _bitmap; }
 

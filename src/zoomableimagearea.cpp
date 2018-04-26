@@ -83,7 +83,7 @@ void ZoomableImageArea::setZoomScale(int scale)
     }
 }
 
-void ZoomableImageArea::paintEvent(QPaintEvent *event)
+void ZoomableImageArea::paintEvent(QPaintEvent * /*event*/)
 {
     if (image.isNull() || image.width() == 0)
     {

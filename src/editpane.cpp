@@ -76,7 +76,7 @@ void EditPane::mouseMoveEvent(QMouseEvent *event)
     }
 }
 
-void EditPane::paintEvent(QPaintEvent *event)
+void EditPane::paintEvent(QPaintEvent * /*event*/)
 {
     int w, h;
     int x1, y1, rectWidth, rectHeight;

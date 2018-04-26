@@ -4,27 +4,23 @@
 #
 #-------------------------------------------------
 
-#!contains(QT_CONFIG,c++11) : error(bdsup2sub++ requires Qt to be configured with C++11 support)
-
 #check Qt version
 QT_VERSION = $$[QT_VERSION]
 QT_VERSION = $$split(QT_VERSION, ".")
 QT_VER_MAJ = $$member(QT_VERSION, 0)
 
-QT       += core xml
+QT        += core xml
 lessThan(QT_VER_MAJ, 4) {
-QT       += gui
+QT        += gui
 }
 greaterThan(QT_VER_MAJ, 4) {
-QT       -= gui
-QT	 += widgets
+QT        -= gui
+QT        += widgets
 }
-CONFIG   += qt console qxt
-#contains(QT_CONFIG,c++11): CONFIG += c++11
-QXT      += core
-QMAKE_CXXFLAGS += -std=c++11
-TARGET = bdsup2sub++
-TEMPLATE = app
+CONFIG    += qt console c++14
+DEFINES   += BUILD_QXT_CORE
+TARGET     = bdsup2sub++
+TEMPLATE   = app
 
 SOURCES += main.cpp\
         bdsup2sub.cpp \
