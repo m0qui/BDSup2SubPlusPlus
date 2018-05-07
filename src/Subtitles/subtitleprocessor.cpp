@@ -84,7 +84,6 @@ void SubtitleProcessor::setOutputStreamToStdError()
 
 void SubtitleProcessor::SetValuesFromSettings()
 {
-    QStringList keys = settings->allKeys();
     verbatim = settings->value("verbatim", QVariant(false)).toBool();
     writePGCEditPal = settings->value("writePGCEditPal", QVariant(false)).toBool();
     mergePTSdiff = settings->value("mergePTSdiff", QVariant(18000)).toInt();
