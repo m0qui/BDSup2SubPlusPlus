@@ -266,7 +266,7 @@ void SupHD::readAllSupFrames()
             subPictures.push_back(pic);
         }
     }
-    catch (QString e)
+    catch (QString &e)
     {
         if (subPictures.size() == 0)
         {

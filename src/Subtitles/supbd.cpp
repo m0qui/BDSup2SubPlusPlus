@@ -343,7 +343,7 @@ void SupBD::readAllSupFrames()
             index += segment.size;
         }
     }
-    catch (QString e)
+    catch (QString &e)
     {
         if (subPictures.size() == 0)
         {
