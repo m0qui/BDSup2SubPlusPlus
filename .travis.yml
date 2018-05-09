@@ -15,6 +15,7 @@ install:
 
 script:
   - source /opt/qt510/bin/qt510-env.sh
+  - gcc --version
   - cd src
   - /opt/qt510/bin/qmake -project
   - /opt/qt510/bin/qmake bdsup2sub++.pro
