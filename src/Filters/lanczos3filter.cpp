@@ -27,7 +27,7 @@ Lanczos3Filter::Lanczos3Filter() :
 
 float Lanczos3Filter::value(float value)
 {
-    if (!value)
+    if (value == 0.0f)
     {
         return 1.0f;
     }
