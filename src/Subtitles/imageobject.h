@@ -77,7 +77,7 @@ private:
     int yOfs = 0;
     int windowId = -1;
     bool forced = false;
-    int _forcedFlags;
+    int _forcedFlags = 0;
     int objectId = -1;
     int objVer = 0;
     int objSeq = 0;
