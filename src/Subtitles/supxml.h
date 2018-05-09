@@ -65,7 +65,7 @@ class SupXML : public QObject, public Substream
 
         Resolution getResolution (QString string);
 
-        SubPictureXML *subPicture;
+        SubPictureXML *subPicture = nullptr;
 
         SupXML* parent;
 
