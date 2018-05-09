@@ -44,7 +44,7 @@ public:
             pixelPositions(p),
             weights(w)
         { }
-        int matrixWidth;
+        int matrixWidth = 0;
         QVector<int> numberOfSamples;
         QVector<int> pixelPositions;
         QVector<float> weights;
