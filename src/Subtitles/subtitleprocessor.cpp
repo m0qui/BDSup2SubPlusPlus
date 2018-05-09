@@ -98,7 +98,7 @@ void SubtitleProcessor::SetValuesFromSettings()
         if (key.contains("recent"))
         {
             QString value = settings->value(key, QVariant("")).toString();
-            if (value != "")
+            if (!value.isEmpty())
             {
                 recentFiles.push_back(value);
             }
@@ -117,9 +117,9 @@ void SubtitleProcessor::SetValuesFromSettings()
     {
         if (!fpsSrcCertain)
         {
-            fpsSrc = settings->value("fpsSrc", QVariant(fpsSrc)).toBool();
+            fpsSrc = settings->value("fpsSrc", QVariant(fpsSrc)).toDouble();
         }
-        fpsTrg = settings->value("fpsTrg", QVariant(fpsTrg)).toBool();
+        fpsTrg = settings->value("fpsTrg", QVariant(fpsTrg)).toDouble();
     }
 
     delayPTS = settings->value("delayPTS", QVariant(delayPTS)).toInt();
@@ -293,23 +293,22 @@ Resolution SubtitleProcessor::getResolution(int width, int height)
     {
         return Resolution::NTSC;
     }
-    if (width <= resolutions[1][0] && height <= resolutions[1][1])
+    else if (width <= resolutions[1][0] && height <= resolutions[1][1])
     {
         return Resolution::PAL;
     }
-    if (width <= resolutions[2][0] && height <= resolutions[2][1])
+    else if (width <= resolutions[2][0] && height <= resolutions[2][1])
     {
         return Resolution::HD_720;
     }
-    if (width <= resolutions[3][0] && height <= resolutions[3][1])
+    else if (width <= resolutions[3][0] && height <= resolutions[3][1])
     {
         return Resolution::HD_1440x1080;
     }
-    if (width <= resolutions[3][0] && height <= resolutions[3][1])
+    else
     {
-        return Resolution::HD_1440x1080;
+        return Resolution::HD_1080;
     }
-    return Resolution::HD_1080;
 }
 
 SubPicture *SubtitleProcessor::getSubPictureSrc(int index)
@@ -423,23 +422,24 @@ void SubtitleProcessor::scanSubtitles()
         subPictures.replace(i, picSrc->copy());
         qint64 ts = picSrc->startTime();
         qint64 te = picSrc->endTime();
+
+        SubPicture* picTrg = subPictures.at(i);
         // copy time stamps and apply speedup/speeddown
         if (!convertFPS)
         {
-            subPictures.at(i)->setStartTime(ts + delayPTS);
-            subPictures.at(i)->setEndTime(te + delayPTS);
+            picTrg->setStartTime(ts + delayPTS);
+            picTrg->setEndTime(te + delayPTS);
         }
         else
         {
-            subPictures.at(i)->setStartTime((qint64)((ts * factTS) + 0.5) + delayPTS);
-            subPictures.at(i)->setEndTime((qint64)((te * factTS) + 0.5) + delayPTS);
+            picTrg->setStartTime((qint64)((ts * factTS) + 0.5) + delayPTS);
+            picTrg->setEndTime((qint64)((te * factTS) + 0.5) + delayPTS);
         }
         // synchronize to target frame rate
-        subPictures.at(i)->setStartTime(syncTimePTS(subPictures.at(i)->startTime(), fpsTrg));
-        subPictures.at(i)->setEndTime(syncTimePTS(subPictures.at(i)->endTime(), fpsTrg));
+        picTrg->setStartTime(syncTimePTS(picTrg->startTime(), fpsTrg));
+        picTrg->setEndTime(syncTimePTS(picTrg->endTime(), fpsTrg));
 
         // set forced flag
-        SubPicture* picTrg = subPictures.at(i);
         switch ((int)forceAll)
         {
             case (int)SetState::SET:
@@ -492,7 +492,7 @@ void SubtitleProcessor::scanSubtitles()
         double xOfs = picSrc->x() * scaleX;
         int spaceSrc = (int)(((picSrc->screenWidth() - picSrc->imageWidth()) * scaleX) + 0.5);
         int spaceTrg = picTrg->screenWidth() - width;
-        xOfs += ((spaceTrg - spaceSrc) / 2);
+        xOfs += ((spaceTrg - spaceSrc) / 2.0);
         if (xOfs < 0)
         {
             xOfs = 0;
@@ -505,7 +505,7 @@ void SubtitleProcessor::scanSubtitles()
         double yOfs = picSrc->y() * scaleY;
         spaceSrc = (int)((picSrc->screenHeight() - picSrc->imageHeight()) * scaleY + 0.5);
         spaceTrg = picTrg->screenHeight() - height;
-        yOfs += ((spaceTrg - spaceSrc) / 2);
+        yOfs += ((spaceTrg - spaceSrc) / 2.0);
 
         if ((yOfs + height) > picTrg->screenHeight())
         {
@@ -695,7 +695,7 @@ void SubtitleProcessor::reScanSubtitles(Resolution oldResolution, double fpsTrgO
         {
             int spaceTrgOld = (int)(((picOld->screenWidth() - picOld->imageWidth()) * factX) + 0.5);
             int spaceTrg = subPictures[i]->screenWidth() - w;
-            xOfs += (spaceTrg - spaceTrgOld) / 2;
+            xOfs += (spaceTrg - spaceTrgOld) / 2.0;
         }
         if (xOfs < 0)
         {
@@ -711,7 +711,7 @@ void SubtitleProcessor::reScanSubtitles(Resolution oldResolution, double fpsTrgO
         {
             int spaceTrgOld = (int)(((picOld->screenHeight() - picOld->imageHeight()) * factY) + 0.5);
             int spaceTrg = subPictures[i]->screenHeight() - h;
-            yOfs += (spaceTrg - spaceTrgOld) / 2;
+            yOfs += (spaceTrg - spaceTrgOld) / 2.0;
         }
         if (yOfs < 0)
         {
@@ -1541,7 +1541,7 @@ void SubtitleProcessor::convertSup(int index, int displayNumber, int displayMax,
             trgBitmapUnpatched = targetBitmap;
         }
         trgBitmap = targetBitmap;
-        trgPal = targetPalette;
+        trgPal = std::move(targetPalette);
     }
 
     if (cliMode)
@@ -1642,7 +1642,7 @@ void SubtitleProcessor::determineFramePalette(int index)
         }
         subVobTrg->alpha = alpha;
         subVobTrg->pal = paletteFrame;
-        trgPal = miniPal;
+        trgPal = std::move(miniPal);
     }
 }
 
@@ -1696,7 +1696,7 @@ bool SubtitleProcessor::updateTrgPic(int index)
         double xOfs = picSrc->x() * scaleX;
         int spaceSrc = (int)(((picSrc->screenWidth() - picSrc->imageWidth()) * scaleX) + 0.5);
         int spaceTrg = picTrg->screenWidth() - wNew;
-        xOfs += (spaceTrg - spaceSrc) / 2;
+        xOfs += (spaceTrg - spaceSrc) / 2.0;
         if (xOfs < 0)
         {
             xOfs = 0;
@@ -1726,7 +1726,7 @@ bool SubtitleProcessor::updateTrgPic(int index)
         double yOfs = picSrc->y() * scaleY;
         int spaceSrc = (int)(((picSrc->screenHeight() - picSrc->imageHeight()) * scaleY) + 0.5);
         int spaceTrg = picTrg->screenHeight() - hNew;
-        yOfs += (spaceTrg - spaceSrc) / 2;
+        yOfs += (spaceTrg - spaceSrc) / 2.0;
         if ((yOfs + hNew) > picTrg->screenHeight())
         {
             yOfs = picTrg->screenHeight() - hNew;
