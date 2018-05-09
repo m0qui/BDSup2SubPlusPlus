@@ -34,9 +34,9 @@ script:
   # Generate app image
   - if [ "$TRAVIS_OS_NAME" != "linux" ] ; then exit 0 ; fi
   - ls
-  #- mkdir dist
-  #- mv src/amphetype2 dist/
-  #- chmod a+x tools/linuxdeployqt.AppImage
-  #- ./tools/linuxdeployqt.AppImage dist/bdsup2sub++ -appimage -bundle-non-qt-libs -verbose=2
-  #- mv dist.AppImage bdsup2subplusplus-linux-x86_64.AppImage
+  - mkdir dist
+  - mv src/bdsup2sub++ dist/
+  - chmod a+x tools/linuxdeployqt.AppImage
+  - ./tools/linuxdeployqt.AppImage dist/bdsup2sub++ -appimage -bundle-non-qt-libs -verbose=2
+  - mv dist.AppImage bdsup2subplusplus-linux-x86_64.AppImage
   
