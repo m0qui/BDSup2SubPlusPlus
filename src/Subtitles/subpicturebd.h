@@ -39,7 +39,7 @@ struct PCS
     int frameRate;
     int compositionNumber;
     CompositionState compositionState;
-    bool paletteUpdate;
+    bool paletteUpdate = false;
     int paletteId;
     int numberOfCompositionObjects;
     QVector<int> objectIds;
@@ -58,9 +58,9 @@ struct WDS
 
 struct PDS
 {
-    int paletteId;
-    int paletteVersion;
-    int paletteSize;
+    int paletteId = -1;
+    int paletteVersion = -1;
+    int paletteSize = -1;
     PaletteInfo paletteInfo;
 };
 
@@ -180,7 +180,7 @@ public:
         }
     }
 
-    void setData(PCS pcs, QMap<int, QVector<ODS>> ods, QMap<int, QVector<PaletteInfo>> pds, WDS wds);
+    void setData(const PCS &pcs, QMap<int, QVector<ODS>> ods, QMap<int, QVector<PaletteInfo>> pds, const WDS &wds);
 
     QMap<int, ImageObject> imageObjectList;
 
@@ -188,9 +188,9 @@ public:
 
 private:
     int type = 0;
-    bool paletteUpdate;
+    bool paletteUpdate = false;
     CompositionState compState;
-    int paletteID;
+    int paletteID = -1;
 };
 
 #endif // SUBSPICTUREBD_H
