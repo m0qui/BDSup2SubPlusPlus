@@ -37,7 +37,7 @@ public:
     void setAlpha(int index, int alpha);
     void setRGB(int index, QRgb rgb);
     void setARGB(int index, QRgb inColor);
-    void setColor(int index, QColor color)
+    void setColor(int index, const QColor &color)
     {
         setRGB(index, color.rgb());
         setAlpha(index, color.alpha());
