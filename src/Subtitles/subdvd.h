@@ -87,9 +87,9 @@ signals:
 private:
     int delay = -1;
     int streamID = 0;
-    int languageIdxRead;
+    int languageIdxRead = -1;
 
-    bool isCancelled;
+    bool isCancelled = false;
 
     QString idxFileName;
     QString subFileName;
