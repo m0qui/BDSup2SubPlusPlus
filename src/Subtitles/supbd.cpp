@@ -147,7 +147,7 @@ void SupBD::readAllSupFrames()
                     out = QString("PDS ofs:0x%1, size:0x%2").arg(QString::number(index, 16), 8, QChar('0'))
                                                             .arg(QString::number(segment.size, 16), 4, QChar('0'));
 
-                    so = QString("");
+                    so.clear();
                     pds = parsePDS(&segment, so);
 
                     if (pds.paletteSize >= 0)
@@ -191,7 +191,7 @@ void SupBD::readAllSupFrames()
                     out = QString("ODS ofs:0x%1, size:0x%2").arg(QString::number(index, 16), 8, QChar('0'))
                                                             .arg(QString::number(segment.size, 16), 4, QChar('0'));
 
-                    so = QString("");
+                    so.clear();
                     bool isFirst = true;
                     ods = parseODS(&segment, so, forceFirstOds, isFirst);
 
@@ -247,7 +247,7 @@ void SupBD::readAllSupFrames()
 
                 forceFirstOds = true;
 
-                so = QString("");
+                so.clear();
                 pcs = parsePCS(&segment, so);
 
 
@@ -1053,9 +1053,9 @@ ODS SupBD::parseODS(SupSegment *segment, QString &msg, bool forceFirst, bool &is
 
         msg = QString("ID: %1, update: %2, seq: %3%4%5").arg(QString::number(objID))
                                                         .arg(QString::number(objVer))
-                                                        .arg(isFirst ? QString("first") : QString(""))
-                                                        .arg((isFirst && last) ? QString("/") : QString(""))
-                                                        .arg(last ? QString("last") : QString(""));
+                                                        .arg(isFirst ? QString("first") : QString())
+                                                        .arg((isFirst && last) ? QString("/") : QString())
+                                                        .arg(last ? QString("last") : QString());
     }
     else
     {
@@ -1070,9 +1070,9 @@ ODS SupBD::parseODS(SupSegment *segment, QString &msg, bool forceFirst, bool &is
 
         msg = QString("ID: %1, update: %2, seq: %3%4%5").arg(QString::number(objID))
                                                         .arg(QString::number(objVer))
-                                                        .arg(isFirst ? QString("first") : QString(""))
-                                                        .arg((isFirst && last) ? QString("/") : QString(""))
-                                                        .arg(last ? QString("last") : QString(""));
+                                                        .arg(isFirst ? QString("first") : QString())
+                                                        .arg((isFirst && last) ? QString("/") : QString())
+                                                        .arg(last ? QString("last") : QString());
     }
     return ods;
 }
