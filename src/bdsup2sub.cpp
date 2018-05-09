@@ -49,7 +49,7 @@
 #include <QFileInfoList>
 #include <QFileInfo>
 #include <QSettings>
-#include "QxtCommandOptions.h"
+#include "qxtcommandoptions.h"
 
 BDSup2Sub::BDSup2Sub(QWidget *parent) :
     QMainWindow(parent),
