@@ -214,7 +214,7 @@ void EditPane::setOffsets(int x, int y)
     }
 }
 
-void EditPane::setImage(QImage image, int width, int height)
+void EditPane::setImage(const QImage &image, int width, int height)
 {
     img = image;
     imgWidth = width;
