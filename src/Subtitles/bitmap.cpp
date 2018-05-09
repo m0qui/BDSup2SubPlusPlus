@@ -29,6 +29,8 @@
 #include <QRect>
 #include <QVector>
 
+#include <cassert>
+
 Bitmap::Bitmap()
 {
 }
@@ -145,6 +147,10 @@ Bitmap Bitmap::crop(int x1, int y1, int width, int height)
 int Bitmap::primaryColorIndex(Palette &palette, int alphaThreshold)
 {
     int *histogram = (int*) calloc(palette.size(), sizeof(int));
+
+    // Should never happen but return index of 0 if calloc fails.
+    if (!histogram) { return 0; }
+
     int height = subtitleImage.height();
     int width = subtitleImage.width();
     uchar* pixels = subtitleImage.scanLine(0);
