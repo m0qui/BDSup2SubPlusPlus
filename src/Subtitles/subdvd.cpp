@@ -33,11 +33,11 @@
 #include <QTextStream>
 #include <QFileInfo>
 
-SubDVD::SubDVD(QString subFileName, QString idxFileName, SubtitleProcessor* subtitleProcessor)
+SubDVD::SubDVD(QString subFileName, QString idxFileName, SubtitleProcessor* subtitleProcessor) :
+    subFileName(subFileName),
+    idxFileName(idxFileName)
 {
     this->subtitleProcessor = subtitleProcessor;
-    this->subFileName = subFileName;
-    this->idxFileName = idxFileName;
 }
 
 SubDVD::~SubDVD()
