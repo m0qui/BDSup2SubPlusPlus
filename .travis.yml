@@ -10,11 +10,8 @@ addons:
     packages:
       - gcc-7
       - g++-7
-    env:
-      - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
 
 before_install:
-  - eval "${MATRIX_EVAL}"
   - sudo add-apt-repository --yes ppa:beineri/opt-qt-5.10.1-trusty
   - sudo apt-get update -qq
 
@@ -22,6 +19,13 @@ install:
   - sudo apt-get -y install qt510-meta-minimal
 
 script:
+  # Link gcc-7 and g++-7 to their standard commands
+  - ln -s /usr/bin/gcc-7 /usr/local/bin/gcc
+  - ln -s /usr/bin/g++-7 /usr/local/bin/g++
+  # Export CC and CXX to tell cmake which compiler to use
+  - export CC=/usr/bin/gcc-7
+  - export CXX=/usr/bin/g++-7
+  - g++ --version
   - source /opt/qt510/bin/qt510-env.sh
   - cd src
   - /opt/qt510/bin/qmake -project
