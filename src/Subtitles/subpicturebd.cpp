@@ -74,7 +74,7 @@ SubPicture* SubPictureBD::copy()
     return new SubPictureBD(this);
 }
 
-void SubPictureBD::setData(PCS pcs, QMap<int, QVector<ODS>> ods, QMap<int, QVector<PaletteInfo>> pds, WDS wds)
+void SubPictureBD::setData(const PCS &pcs, QMap<int, QVector<ODS>> ods, QMap<int, QVector<PaletteInfo>> pds, const WDS &wds)
 {
     start = pcs.pts;
     _screenWidth = pcs.videoWidth;
