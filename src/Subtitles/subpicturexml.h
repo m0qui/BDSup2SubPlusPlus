@@ -48,8 +48,8 @@ public:
     void setFileName(QString fileName) { filenames.push_back(fileName); }
 
 private:
-    int origX;
-    int origY;
+    int origX = 0;
+    int origY = 0;
 
     QVector<QString> filenames;
 
