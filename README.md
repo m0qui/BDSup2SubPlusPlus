@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/amichaeltm/BDSup2SubPlusPlus.svg?branch=master)](https://travis-ci.org/amichaeltm/BDSup2SubPlusPlus)
+
 BDSup2Sub++
 ===========
 

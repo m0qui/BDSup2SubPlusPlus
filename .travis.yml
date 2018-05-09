@@ -1,5 +1,15 @@
+language: cpp
+compiler: gcc
 sudo: required
 dist: trusty
+
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - gcc-7
+      - g++-7
 
 before_install:
   - sudo add-apt-repository --yes ppa:beineri/opt-qt-5.10.1-trusty
@@ -9,6 +19,13 @@ install:
   - sudo apt-get -y install qt510-meta-minimal
 
 script:
+  # Link gcc-7 and g++-7 to their standard commands
+  - sudo ln -s /usr/bin/gcc-7 /usr/local/bin/gcc
+  - sudo ln -s /usr/bin/g++-7 /usr/local/bin/g++
+  # Export CC and CXX to tell cmake which compiler to use
+  - sudo export CC=/usr/bin/gcc-7
+  - sudo export CXX=/usr/bin/g++-7
+  - g++ --version
   - source /opt/qt510/bin/qt510-env.sh
   - cd src
   - /opt/qt510/bin/qmake -project
