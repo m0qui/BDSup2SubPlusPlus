@@ -17,8 +17,9 @@ greaterThan(QT_VER_MAJ, 4) {
 QT        -= gui
 QT        += widgets
 }
-CONFIG    += qt console c++14
+CONFIG    += qt console
 DEFINES   += BUILD_QXT_CORE
+QMAKE_CXXFLAGS += -std=c++14
 TARGET     = bdsup2sub++
 TEMPLATE   = app
 
