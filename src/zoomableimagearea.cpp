@@ -33,7 +33,7 @@ ZoomableImageArea::ZoomableImageArea(QWidget *parent) :
 {
 }
 
-void ZoomableImageArea::setImage(QImage inImage)
+void ZoomableImageArea::setImage(const QImage &inImage)
 {
     image = inImage;
     if (zoomScale == 0)
