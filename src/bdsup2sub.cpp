@@ -65,6 +65,7 @@ BDSup2Sub::~BDSup2Sub()
     delete errorBackground;
     delete settings;
     delete ui;
+    delete options;
 }
 
 void BDSup2Sub::closeEvent(QCloseEvent *event)
@@ -323,7 +324,7 @@ void BDSup2Sub::showEvent(QShowEvent *event)
         loadSettings();
     }
     init();
-    if (fromCLI && loadPath != "")
+    if (fromCLI && !loadPath.isEmpty())
     {
         if (!QFile(loadPath).exists())
         {
@@ -557,19 +558,20 @@ void BDSup2Sub::openFile()
 void BDSup2Sub::saveFile()
 {
     QString path = savePath + QDir::separator() + saveFileName + "_exp.";
-    if (ui->outputFormatComboBox->currentText().contains("IDX"))
+    QString currentText = ui->outputFormatComboBox->currentText();
+    if (currentText.contains("IDX"))
     {
         path += "idx";
     }
-    else if (ui->outputFormatComboBox->currentText().contains("IFO"))
+    else if (currentText.contains("IFO"))
     {
         path += "ifo";
     }
-    if (ui->outputFormatComboBox->currentText().contains("BD"))
+    if (currentText.contains("BD"))
     {
         path += "sup";
     }
-    if (ui->outputFormatComboBox->currentText().contains("XML"))
+    if (currentText.contains("XML"))
     {
         path += "xml";
     }
@@ -587,22 +589,22 @@ void BDSup2Sub::saveFile()
         saveFileName = saveFileName.replace(QRegExp("_exp$"), "");
         QString fi, fs;
 
-        if (ui->outputFormatComboBox->currentText().contains("IDX"))
+        if (currentText.contains("IDX"))
         {
             fi = savePath + QDir::separator() + fileInfo.completeBaseName() + ".idx";
             fs = savePath + QDir::separator() + fileInfo.completeBaseName() + ".sub";
         }
-        else if (ui->outputFormatComboBox->currentText().contains("IFO"))
+        else if (currentText.contains("IFO"))
         {
             fi = savePath + QDir::separator() + fileInfo.completeBaseName() + ".ifo";
             fs = savePath + QDir::separator() + fileInfo.completeBaseName() + ".sup";
         }
-        if (ui->outputFormatComboBox->currentText().contains("BD"))
+        if (currentText.contains("BD"))
         {
             fs = savePath + QDir::separator() + fileInfo.completeBaseName() + ".sup";
             fi = fs;
         }
-        if (ui->outputFormatComboBox->currentText().contains("XML"))
+        if (currentText.contains("XML"))
         {
             fs = savePath + QDir::separator() + fileInfo.completeBaseName() + ".xml";
             fi = fs;
@@ -1020,7 +1022,7 @@ bool BDSup2Sub::execCLI(int /*argc*/, char** /*argv*/)
         }
         else
         {
-            if (src != "")
+            if (!src.isEmpty())
             {
                 srcFileNames.insert(0, QFileInfo(src).absoluteFilePath());
             }
@@ -1032,7 +1034,7 @@ bool BDSup2Sub::execCLI(int /*argc*/, char** /*argv*/)
             }
             else
             {
-                if (trg != "")
+                if (!trg.isEmpty())
                 {
                     trgFileNames.insert(0, QFileInfo(trg).absoluteFilePath());
                 }
@@ -1659,16 +1661,16 @@ bool BDSup2Sub::execCLI(int /*argc*/, char** /*argv*/)
             }
         }
 
-        if (srcFileNames.count() == 1 && trg == "")
+        if (srcFileNames.count() == 1 && trg.isEmpty())
         {
             fromCLI = true;
             loadPath = srcFileNames[0];
             return false;
         }
-        else if (src == "" && trg == "")
+        else if (src.isEmpty() && trg.isEmpty())
         {
             fromCLI = true;
-            loadPath = "";
+            loadPath.clear();
             return false;
         }
 
@@ -1689,9 +1691,11 @@ bool BDSup2Sub::execCLI(int /*argc*/, char** /*argv*/)
                     errorStream << QString("ERROR: File '%1' does not exist.").arg(QDir::toNativeSeparators(src)) << endl;
                     exit(1);
                 }
-                bool xml = srcFileInfo.completeSuffix().toLower() == "xml";
-                bool idx = srcFileInfo.completeSuffix().toLower() == "idx";
-                bool ifo = srcFileInfo.completeSuffix().toLower() == "ifo";
+
+                QString fileSuffix = srcFileInfo.completeSuffix().toLower();
+                bool xml = fileSuffix == "xml";
+                bool idx = fileSuffix == "idx";
+                bool ifo = fileSuffix == "ifo";
                 QByteArray id = subtitleProcessor->getFileID(src, 4);
                 StreamID sid = (id.isEmpty()) ? StreamID::UNKNOWN : subtitleProcessor->getStreamID(id);
                 if (!idx && !xml && !ifo && sid == StreamID::UNKNOWN)
