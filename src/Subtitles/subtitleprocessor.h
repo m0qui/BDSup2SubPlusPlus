@@ -526,12 +526,12 @@ private:
 
     QVector<SubPicture*> subPictures;
 
-    int languageIdxRead;
+    int languageIdxRead = false;
     int maxProgress = 0;
     double lastProgress = 0.0;
-    int numberOfErrors, numberOfWarnings;
+    int numberOfErrors = 0, numberOfWarnings = 0;
     int languageIdx = 0;
-    int languageIdxSet = false;
+    bool languageIdxSet = false;
     int alphaCrop = 14;
     int alphaThreshold = 80;
     int cropOfsY = 0;
