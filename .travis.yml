@@ -25,16 +25,16 @@ script:
   # Export CC and CXX to tell cmake which compiler to use
   - export CC=/usr/bin/gcc-7
   - export CXX=/usr/bin/g++-7
-  - g++ --version
   - source /opt/qt510/bin/qt510-env.sh
+  - cd src
   - /opt/qt510/bin/qmake -project
-  - /opt/qt510/bin/qmake ./src/bdsup2sub++.pro
+  - /opt/qt510/bin/qmake bdsup2sub++.pro
   - make
   # Generate app image
   - if [ "$TRAVIS_OS_NAME" != "linux" ] ; then exit 0 ; fi
-  - ls
+  - cd ..
   - mkdir dist
-  - mv ./src/bdsup2sub++ dist/
+  - mv src/bdsup2sub++ dist/
   - chmod a+x tools/linuxdeployqt.AppImage
   - ./tools/linuxdeployqt.AppImage dist/bdsup2sub++ -appimage -bundle-non-qt-libs -verbose=2
   - mv dist.AppImage bdsup2subplusplus-linux-x86_64.AppImage
