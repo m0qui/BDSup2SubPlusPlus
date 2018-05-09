@@ -300,7 +300,7 @@ void SubstreamDVD::decodeLine(QVector<uchar> src, int srcOfs, int srcLen,
                 {
                     // line feed
                     len = width - x;
-                    if (len <= 0 || sumPixels >= maxPixels)
+                    if (len <= 0)
                     {
                         len = 0;
                         // handle line feed
