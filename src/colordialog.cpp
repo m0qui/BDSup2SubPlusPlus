@@ -106,8 +106,8 @@ void ColorDialog::on_restoreDefaultColorsButton_clicked()
 void ColorDialog::on_savePaletteButton_clicked()
 {
     QString filePath = QFileDialog::getSaveFileName(this, tr("Save"),
-                                                    colorPath == "" ? QApplication::applicationDirPath() :
-                                                                      QFileInfo(colorPath).absolutePath(),
+                                                    colorPath.isEmpty() ? QApplication::applicationDirPath() :
+                                                                          QFileInfo(colorPath).absolutePath(),
                                                     filter,
                                                     &selectedFilter);
 
@@ -134,8 +134,8 @@ void ColorDialog::on_savePaletteButton_clicked()
 void ColorDialog::on_loadPaletteButton_clicked()
 {
     QString filePath = QFileDialog::getOpenFileName(this, tr("Save"),
-                                                    colorPath == "" ? QApplication::applicationDirPath() :
-                                                                      QFileInfo(colorPath).absolutePath(),
+                                                    colorPath.isEmpty() ? QApplication::applicationDirPath() :
+                                                                          QFileInfo(colorPath).absolutePath(),
                                                     filter,
                                                     &selectedFilter);
 
