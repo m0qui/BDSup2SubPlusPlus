@@ -401,7 +401,7 @@ bool SupXML::XmlHandler::startElement(const QString &/*namespaceURI*/, const QSt
         parent->subtitleProcessor->printError("BDN tag missing\n");
     }
 
-    txt = QString("");
+    txt.clear();
 
     switch ((int)state)
     {
