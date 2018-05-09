@@ -12,5 +12,5 @@ script:
   - source /opt/qt510/bin/qt510-env.sh
   - cd src
   - /opt/qt510/bin/qmake -project
-  - /opt/qt510/bin/qmake src/bdsup2sub++.pro
+  - /opt/qt510/bin/qmake bdsup2sub++.pro
   - make
