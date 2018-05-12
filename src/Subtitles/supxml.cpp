@@ -195,7 +195,7 @@ void SupXML::decode(int index)
         {
             height = 2;
         }
-        
+
         _bitmap = _bitmap.crop(bounds.topLeft().x(), bounds.topLeft().y(), width, height);
         QMap<int, QRect> &imageRects = subPic.imageSizes();
         QMap<int, QRect> &windowRects = subPic.windowSizes();
