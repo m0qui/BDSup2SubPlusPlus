@@ -195,20 +195,21 @@ void SupXML::decode(int index)
         {
             height = 2;
         }
+        
         _bitmap = _bitmap.crop(bounds.topLeft().x(), bounds.topLeft().y(), width, height);
         QMap<int, QRect> &imageRects = subPic.imageSizes();
         QMap<int, QRect> &windowRects = subPic.windowSizes();
 
-        int newX = subPic.x() - (subPic.originalX() + bounds.topLeft().x());
-        int newY = subPic.y() - (subPic.originalY() + bounds.topLeft().y());
+        int xOffset = abs(subPic.x() - (subPic.originalX() + bounds.topLeft().x()));
+        int yOffset = abs(subPic.y() - (subPic.originalY() + bounds.topLeft().y()));
         double widthScale = (double) width / subPic.imageWidth();
         double heightScale = (double) height / subPic.imageHeight();
 
         // update picture
         for (int i = 0; i < imageRects.size(); ++i)
         {
-            imageRects[i].setX(imageRects[i].x() + newX);
-            imageRects[i].setY(imageRects[i].y() + newY);
+            imageRects[i].setX(imageRects[i].x() + xOffset);
+            imageRects[i].setY(imageRects[i].y() + yOffset);
             imageRects[i].setWidth((int) ((imageRects[i].width() * widthScale) + .5));
             imageRects[i].setHeight((int) ((imageRects[i].height() * heightScale) + .5));
         }
@@ -216,8 +217,8 @@ void SupXML::decode(int index)
         // update picture
         for (int i = 0; i < windowRects.size(); ++i)
         {
-            windowRects[i].setX(windowRects[i].x() + newX);
-            windowRects[i].setY(windowRects[i].y() + newY);
+            windowRects[i].setX(windowRects[i].x() + xOffset);
+            windowRects[i].setY(windowRects[i].y() + yOffset);
             windowRects[i].setWidth((int) ((windowRects[i].width() * widthScale) + .5));
             windowRects[i].setHeight((int) ((windowRects[i].height() * heightScale) + .5));
         }
