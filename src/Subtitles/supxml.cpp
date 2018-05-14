@@ -145,7 +145,7 @@ void SupXML::decode(int index)
     }
     else
     {
-        QMap<int, QRect> &imageRects = subPic.imageSizes();
+        const QList<QRect> &imageRects = subPic.imageSizes().values();
         int resultXOffset = imageRects[0].x() > imageRects[1].x() ? imageRects[1].x() : imageRects[0].x();
         int resultYOffset = imageRects[0].y() > imageRects[1].y() ? imageRects[1].y() : imageRects[0].y();
         int width = 0, height = 0;
@@ -206,21 +206,21 @@ void SupXML::decode(int index)
         double heightScale = (double) height / subPic.imageHeight();
 
         // update picture
-        for (int i = 0; i < imageRects.size(); ++i)
+        for (QRect imageRect : imageRects)
         {
-            imageRects[i].setX(imageRects[i].x() + xOffset);
-            imageRects[i].setY(imageRects[i].y() + yOffset);
-            imageRects[i].setWidth((int) ((imageRects[i].width() * widthScale) + .5));
-            imageRects[i].setHeight((int) ((imageRects[i].height() * heightScale) + .5));
+            imageRect.setX(imageRect.x() + xOffset);
+            imageRect.setY(imageRect.y() + yOffset);
+            imageRect.setWidth((int) ((imageRect.width() * widthScale) + .5));
+            imageRect.setHeight((int) ((imageRect.height() * heightScale) + .5));
         }
 
         // update picture
-        for (int i = 0; i < windowRects.size(); ++i)
+        for (QRect windowRect : windowRects)
         {
-            windowRects[i].setX(windowRects[i].x() + xOffset);
-            windowRects[i].setY(windowRects[i].y() + yOffset);
-            windowRects[i].setWidth((int) ((windowRects[i].width() * widthScale) + .5));
-            windowRects[i].setHeight((int) ((windowRects[i].height() * heightScale) + .5));
+            windowRect.setX(windowRect.x() + xOffset);
+            windowRect.setY(windowRect.y() + yOffset);
+            windowRect.setWidth((int) ((windowRect.width() * widthScale) + .5));
+            windowRect.setHeight((int) ((windowRect.height() * heightScale) + .5));
         }
     }
 }
@@ -333,17 +333,18 @@ void SupXML::writeXml(QString filename, QVector<SubPicture*> pics)
             numberOfImages = imageRects.size();
         }
 
-        for (int j = 0; j < numberOfImages; ++j)
+        int num_pic = 0;
+        for (QRect imageRect : imageRects)
         {
             QFileInfo info(pname);
             out->write((QString("      <Graphic Width=\"%1\" Height=\"%2\" X=\"%3\" Y=\"%4\">%5</Graphic>\n")
-                        .arg(QString::number(imageRects[j].width()))
-                        .arg(QString::number(imageRects[j].height()))
-                        .arg(QString::number(imageRects[j].x()))
-                        .arg(QString::number(imageRects[j].y()))
+                        .arg(QString::number(imageRect.width()))
+                        .arg(QString::number(imageRect.height()))
+                        .arg(QString::number(imageRect.x()))
+                        .arg(QString::number(imageRect.y()))
                         .arg(QString("%1_%2.png")
                              .arg(info.completeBaseName())
-                             .arg(QString::number(j))))
+                             .arg(QString::number(num_pic++))))
                        .toLatin1());
         }
         out->write("    </Event>\n");

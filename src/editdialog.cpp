@@ -263,17 +263,17 @@ void EditDialog::on_centerButton_clicked()
     QMap<int, QRect> &windowRects = subPicture->windowSizes();
     int dx = ((subPicture->screenWidth() - subPicture->imageWidth()) / 2) - subPicture->x();
 
-    for (int i = 0; i < imageRects.size(); ++i)
+    for (QRect imageRect : imageRects)
     {
-        int width = imageRects[i].width();
-        imageRects[i].setX(imageRects[i].x() + dx);
-        imageRects[i].setWidth(width);
+        int width = imageRect.width();
+        imageRect.setX(imageRect.x() + dx);
+        imageRect.setWidth(width);
     }
-    for (int i = 0; i < windowRects.size(); ++i)
+    for (QRect windowRect : windowRects)
     {
-        int width = windowRects[i].width();
-        windowRects[i].setX(windowRects[i].x() + dx);
-        windowRects[i].setWidth(width);
+        int width = windowRect.width();
+        windowRect.setX(windowRect.x() + dx);
+        windowRect.setWidth(width);
     }
 
     ui->horizontalSlider->blockSignals(true);
@@ -306,18 +306,18 @@ void EditDialog::on_topButton_clicked()
     QMap<int, QRect> &windowRects = subPicture->windowSizes();
     int dy = y - subPicture->y();
 
-    for (int i = 0; i < imageRects.size(); ++i)
+    for (QRect imageRect : imageRects)
     {
-        int height = imageRects[i].height();
-        imageRects[i].setY(imageRects[i].y() + dy);
-        imageRects[i].setHeight(height);
+        int height = imageRect.height();
+        imageRect.setY(imageRect.y() + dy);
+        imageRect.setHeight(height);
     }
 
-    for (int i = 0; i < windowRects.size(); ++i)
+    for (QRect windowRect : windowRects)
     {
-        int height = windowRects[i].height();
-        windowRects[i].setY(windowRects[i].y() + dy);
-        windowRects[i].setHeight(height);
+        int height = windowRect.height();
+        windowRect.setY(windowRect.y() + dy);
+        windowRect.setHeight(height);
     }
 
     ui->verticalSlider->setValue(subPicture->screenHeight() - subPicture->y());
@@ -344,17 +344,17 @@ void EditDialog::on_bottomButton_clicked()
     QMap<int, QRect> &windowRects = subPicture->windowSizes();
     int dy = y - subPicture->y();
 
-    for (int i = 0; i < imageRects.size(); ++i)
+    for (QRect imageRect : imageRects)
     {
-        int height = imageRects[i].height();
-        imageRects[i].setY(imageRects[i].y() + dy);
-        imageRects[i].setHeight(height);
+        int height = imageRect.height();
+        imageRect.setY(imageRect.y() + dy);
+        imageRect.setHeight(height);
     }
-    for (int i = 0; i < windowRects.size(); ++i)
+    for (QRect windowRect : windowRects)
     {
-        int height = windowRects[i].height();
-        windowRects[i].setY(windowRects[i].y() + dy);
-        windowRects[i].setHeight(height);
+        int height = windowRect.height();
+        windowRect.setY(windowRect.y() + dy);
+        windowRect.setHeight(height);
     }
 
     ui->verticalSlider->setValue(subPicture->screenHeight() - subPicture->y());
@@ -453,26 +453,26 @@ void EditDialog::store()
     int dx = subPicture->x() - subPic->x();
     int dy = subPicture->y() - subPic->y();
 
-    for (int i = 0; i < imageRects.size(); ++i)
+    for (QRect imageRect : imageRects)
     {
-        int width = imageRects[i].width();
-        imageRects[i].setX(imageRects[i].x() + dx);
-        imageRects[i].setWidth(width);
+        int width = imageRect.width();
+        imageRect.setX(imageRect.x() + dx);
+        imageRect.setWidth(width);
 
-        int height = imageRects[i].height();
-        imageRects[i].setY(imageRects[i].y() + dy);
-        imageRects[i].setHeight(height);
+        int height = imageRect.height();
+        imageRect.setY(imageRect.y() + dy);
+        imageRect.setHeight(height);
     }
 
-    for (int i = 0; i < windowRects.size(); ++i)
+    for (QRect windowRect : windowRects)
     {
-        int width = windowRects[i].width();
-        windowRects[i].setX(windowRects[i].x() + dx);
-        windowRects[i].setWidth(width);
+        int width = windowRect.width();
+        windowRect.setX(windowRect.x() + dx);
+        windowRect.setWidth(width);
 
-        int height = windowRects[i].height();
-        windowRects[i].setY(windowRects[i].y() + dy);
-        windowRects[i].setHeight(height);
+        int height = windowRect.height();
+        windowRect.setY(windowRect.y() + dy);
+        windowRect.setHeight(height);
     }
 
     subPic->setForced(subPicture->isForced());
@@ -584,18 +584,18 @@ void EditDialog::on_xOffsetLineEdit_textChanged(const QString &/*arg1*/)
             QMap<int, QRect> &windowRects = subPicture->windowSizes();
             int dx = x - subPicture->x();
 
-            for (int i = 0; i < imageRects.size(); ++i)
+            for (QRect imageRect : imageRects)
             {
-                int width = imageRects[i].width();
-                imageRects[i].setX(imageRects[i].x() + dx);
-                imageRects[i].setWidth(width);
+                int width = imageRect.width();
+                imageRect.setX(imageRect.x() + dx);
+                imageRect.setWidth(width);
             }
 
-            for (int i = 0; i < windowRects.size(); ++i)
+            for (QRect windowRect : windowRects)
             {
-                int width = windowRects[i].width();
-                windowRects[i].setX(windowRects[i].x() + dx);
-                windowRects[i].setWidth(width);
+                int width = windowRect.width();
+                windowRect.setX(windowRect.x() + dx);
+                windowRect.setWidth(width);
             }
 
             ui->horizontalSlider->setValue(subPicture->x());
@@ -627,17 +627,17 @@ void EditDialog::on_yOffsetLineEdit_textChanged(const QString &/*arg1*/)
             QMap<int, QRect> &windowRects = subPicture->windowSizes();
             int dy = y - subPicture->y();
 
-            for (int i = 0; i < imageRects.size(); ++i)
+            for (QRect imageRect : imageRects)
             {
-                int height = imageRects[i].height();
-                imageRects[i].setY(imageRects[i].y() + dy);
-                imageRects[i].setHeight(height);
+                int height = imageRect.height();
+                imageRect.setY(imageRect.y() + dy);
+                imageRect.setHeight(height);
             }
-            for (int i = 0; i < windowRects.size(); ++i)
+            for (QRect windowRect : windowRects)
             {
-                int height = windowRects[i].height();
-                windowRects[i].setY(windowRects[i].y() + dy);
-                windowRects[i].setHeight(height);
+                int height = windowRect.height();
+                windowRect.setY(windowRect.y() + dy);
+                windowRect.setHeight(height);
             }
 
             ui->verticalSlider->setValue(subPicture->screenHeight() - subPicture->y());
@@ -671,18 +671,18 @@ void EditDialog::on_verticalSlider_valueChanged(int value)
         QMap<int, QRect> &windowRects = subPicture->windowSizes();
         int dy = y - subPicture->y();
 
-        for (int i = 0; i < imageRects.size(); ++i)
+        for (QRect imageRect : imageRects)
         {
-            int height = imageRects[i].height();
-            imageRects[i].setY(imageRects[i].y() + dy);
-            imageRects[i].setHeight(height);
+            int height = imageRect.height();
+            imageRect.setY(imageRect.y() + dy);
+            imageRect.setHeight(height);
         }
 
-        for (int i = 0; i < windowRects.size(); ++i)
+        for (QRect windowRect : windowRects)
         {
-            int height = windowRects[i].height();
-            windowRects[i].setY(windowRects[i].y() + dy);
-            windowRects[i].setHeight(height);
+            int height = windowRect.height();
+            windowRect.setY(windowRect.y() + dy);
+            windowRect.setHeight(height);
         }
 
         ui->yOffsetLineEdit->setText(QString::number(subPicture->y()));
@@ -714,18 +714,18 @@ void EditDialog::on_horizontalSlider_valueChanged(int value)
         QMap<int, QRect> &windowRects = subPicture->windowSizes();
         int dx = x - subPicture->x();
 
-        for (int i = 0; i < imageRects.size(); ++i)
+        for (QRect imageRect : imageRects)
         {
-            int width = imageRects[i].width();
-            imageRects[i].setX(imageRects[i].x() + dx);
-            imageRects[i].setWidth(width);
+            int width = imageRect.width();
+            imageRect.setX(imageRect.x() + dx);
+            imageRect.setWidth(width);
         }
 
-        for (int i = 0; i < windowRects.size(); ++i)
+        for (QRect windowRect : windowRects)
         {
-            int width = windowRects[i].width();
-            windowRects[i].setX(windowRects[i].x() + dx);
-            windowRects[i].setWidth(width);
+            int width = windowRect.width();
+            windowRect.setX(windowRect.x() + dx);
+            windowRect.setWidth(width);
         }
 
         ui->xOffsetLineEdit->setText(QString::number(subPicture->x()));
@@ -843,18 +843,18 @@ void EditDialog::on_xOffsetLineEdit_editingFinished()
         QMap<int, QRect> &windowRects = subPicture->windowSizes();
         int dx = x - subPicture->x();
 
-        for (int i = 0; i < imageRects.size(); ++i)
+        for (QRect imageRect : imageRects)
         {
-            int width = imageRects[i].width();
-            imageRects[i].setX(imageRects[i].x() + dx);
-            imageRects[i].setWidth(width);
+            int width = imageRect.width();
+            imageRect.setX(imageRect.x() + dx);
+            imageRect.setWidth(width);
         }
 
-        for (int i = 0; i < windowRects.size(); ++i)
+        for (QRect windowRect : windowRects)
         {
-            int width = windowRects[i].width();
-            windowRects[i].setX(windowRects[i].x() + dx);
-            windowRects[i].setWidth(width);
+            int width = windowRect.width();
+            windowRect.setX(windowRect.x() + dx);
+            windowRect.setWidth(width);
         }
 
         ui->horizontalSlider->setValue(subPicture->x());
@@ -887,18 +887,18 @@ void EditDialog::on_yOffsetLineEdit_editingFinished()
         QMap<int, QRect> &windowRects = subPicture->windowSizes();
         int dy = y - subPicture->y();
 
-        for (int i = 0; i < imageRects.size(); ++i)
+        for (QRect imageRect : imageRects)
         {
-            int height = imageRects[i].height();
-            imageRects[i].setY(imageRects[i].y() + dy);
-            imageRects[i].setHeight(height);
+            int height = imageRect.height();
+            imageRect.setY(imageRect.y() + dy);
+            imageRect.setHeight(height);
         }
 
-        for (int i = 0; i < windowRects.size(); ++i)
+        for (QRect windowRect : windowRects)
         {
-            int height = windowRects[i].height();
-            windowRects[i].setY(windowRects[i].y() + dy);
-            windowRects[i].setHeight(height);
+            int height = windowRect.height();
+            windowRect.setY(windowRect.y() + dy);
+            windowRect.setHeight(height);
         }
 
         ui->verticalSlider->setValue(subPicture->screenHeight() - subPicture->y());
