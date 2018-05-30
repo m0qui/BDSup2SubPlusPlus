@@ -124,6 +124,8 @@ private:
 
     void findImageArea(SubPictureBD *subPicture);
 
+    bool imagesAreMergeable(SubPictureBD &currentSub, SubPictureBD &prevSub);
+
     QVector<uchar> packetHeader =
     {
         0x50, 0x47,                         // 0:  "PG"

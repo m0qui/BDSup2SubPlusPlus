@@ -319,7 +319,7 @@ void SupBD::readAllSupFrames()
                 {
                     pic.setData(pcs, imageObjects, palettes, wds);
 
-                    if (pic.numCompObjects() != 0)
+                    if (pic.numCompObjects() != 0 && (pic.compNum() != subPictures.back().compNum()) && (!imagesAreMergeable(pic, subPictures.back())))
                     {
                         subtitleProcessor->printX(QString("#< %1 (%2)\n")
                                                   .arg(QString::number(++subCount))
@@ -392,6 +392,15 @@ void SupBD::readAllSupFrames()
         }
     }
 
+    for (int i = subPictures.size() - 1; i > 0; --i)
+    {
+        if (imagesAreMergeable(subPictures[i], subPictures[i - 1]))
+        {
+            subtitleProcessor->printX(QString("#< caption %1 merged with caption %2\n").arg(QString::number(i)).arg(QString::number(i-1)));
+            subPictures[i - 1].setEndTime(subPictures.value(i).endTime());
+        }
+    }
+
     emit currentProgressChanged(bufsize);
     // count forced frames
     _numForcedFrames = 0;
@@ -405,6 +414,40 @@ void SupBD::readAllSupFrames()
 
     subtitleProcessor->printX(QString("\nDetected %1 forced captions.\n")
                               .arg(QString::number(_numForcedFrames)));
+}
+
+bool SupBD::imagesAreMergeable(SubPictureBD &currentSub, SubPictureBD &prevSub)
+{
+    if (std::abs(prevSub.endTime() - currentSub.startTime()) < 10 && prevSub.imageWidth() == currentSub.imageWidth() && prevSub.imageHeight() == currentSub.imageHeight())
+    {
+        if (!currentSub.imageObjectList.empty() && !currentSub.imageObjectList[0].fragmentList().empty() &&
+            !prevSub.imageObjectList.empty() && !prevSub.imageObjectList[0].fragmentList().empty())
+        {
+            QVector<uchar> curImageBuf, prevImageBuf;
+            for (auto imageObject : currentSub.imageObjectList)
+            {
+                curImageBuf = QVector<uchar>(imageObject.bufferSize());
+                int index = 0;
+                for (auto fragment : imageObject.fragmentList())
+                {
+                    fileBuffer->getBytes(fragment.imageBufferOffset(), curImageBuf.data() + index, fragment.imagePacketSize());
+                    index += fragment.imagePacketSize();
+                }
+            }
+            for (auto imageObject : prevSub.imageObjectList)
+            {
+                prevImageBuf = QVector<uchar>(imageObject.bufferSize());
+                int index = 0;
+                for (auto fragment : imageObject.fragmentList())
+                {
+                    fileBuffer->getBytes(fragment.imageBufferOffset(), prevImageBuf.data() + index, fragment.imagePacketSize());
+                    index += fragment.imagePacketSize();
+                }
+            }
+            return curImageBuf == prevImageBuf;
+        }
+    }
+    return false;
 }
 
 QVector<uchar> SupBD::encodeImage(Bitmap &bm)
