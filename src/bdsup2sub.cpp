@@ -65,7 +65,7 @@ BDSup2Sub::~BDSup2Sub()
     delete errorBackground;
     delete settings;
     delete ui;
-    delete options;
+    //delete options;
 }
 
 void BDSup2Sub::closeEvent(QCloseEvent *event)
