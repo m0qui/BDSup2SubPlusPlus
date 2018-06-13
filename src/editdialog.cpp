@@ -21,6 +21,7 @@
 #include "ui_editdialog.h"
 #include "Subtitles/subtitleprocessor.h"
 #include "Subtitles/subpicture.h"
+#include "Subtitles/substream.h"
 #include "Tools/timeutil.h"
 #include "types.h"
 
@@ -220,6 +221,7 @@ void EditDialog::on_excludeCheckBox_toggled(bool checked)
 void EditDialog::on_forcedCaptionCheckBox_toggled(bool checked)
 {
     subPicture->setForced(checked);
+    checked ? subtitleProcessor->getSubstream()->incrementForcedFrames() : subtitleProcessor->getSubstream()->decrementForcedFrames();
     setEdited(true);
 }
 

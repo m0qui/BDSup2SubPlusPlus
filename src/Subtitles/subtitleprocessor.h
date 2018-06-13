@@ -480,6 +480,8 @@ public:
     void storeFreeScale(double xScale, double yScale);
     void storeSettings();
 
+    QSharedPointer<Substream> getSubstream() { return substream; }
+
 signals:
     void windowTitleChanged(const QString &newTitle);
     void progressDialogTitleChanged(const QString &newTitle);
