@@ -398,6 +398,7 @@ void SupBD::readAllSupFrames()
         {
             subtitleProcessor->printX(QString("#< caption %1 merged with caption %2\n").arg(QString::number(i)).arg(QString::number(i-1)));
             subPictures[i - 1].setEndTime(subPictures.value(i).endTime());
+            subPictures.remove(i);
         }
     }
 
