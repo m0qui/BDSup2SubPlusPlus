@@ -168,13 +168,13 @@ public:
         return isForced;
     }
 
-    void setForced(bool /*isForced*/)
+    void setForced(bool isForced)
     {
         for (int i = 0; i < imageObjectList.size(); ++i)
         {
-            if (imageObjectList[i].fragmentList().size() > 0)
+            if (!imageObjectList[i].fragmentList().empty())
             {
-                imageObjectList[i].setForcedFlags(imageObjectList[i].forcedFlags() | 0x40);
+                imageObjectList[i].setForcedFlags(isForced ? 0x40 : 0);
                 forcedFlags[i] = imageObjectList[i].forcedFlags();
             }
         }

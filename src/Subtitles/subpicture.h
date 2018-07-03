@@ -115,8 +115,8 @@ public:
     virtual void setForced(bool isForced)
     {
         forced = isForced;
-        forcedFlags[0] |= 0x40;
-        forcedFlags[1] |= 0x40;
+        forcedFlags[0] = forced ? 0x40 : 0;
+        forcedFlags[1] = forced ? 0x40 : 0;
     }
 
     bool wasDecoded() { return decoded; }
